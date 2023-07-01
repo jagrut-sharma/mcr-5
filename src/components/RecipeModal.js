@@ -37,7 +37,14 @@ export default function RecipeModal() {
 
   const addRecipeHandler = () => {
     console.log("added");
-    dataDispatch({ type: ACTIONS.ADD_RECIPE, payload: inputData });
+    const ingred = inputData.ingredients.split(", ");
+    const instruct = inputData.instructions.split("\n");
+    const payloadData = {
+      ...inputData,
+      ingredients: ingred,
+      instructions: instruct,
+    };
+    dataDispatch({ type: ACTIONS.ADD_RECIPE, payload: payloadData });
     dataDispatch({ type: ACTIONS.UPDATE_LOCAL_STORAGE });
 
     setInputData({ ...initialData });
@@ -103,6 +110,7 @@ export default function RecipeModal() {
                       placeholder="Name of recipe"
                       value={inputData.name}
                       onChange={handleChange}
+                      required
                     />
                   </div>
 
@@ -121,6 +129,7 @@ export default function RecipeModal() {
                       placeholder="Cuisine"
                       value={inputData.cuisine}
                       onChange={handleChange}
+                      required
                     />
                   </div>
 
@@ -129,7 +138,7 @@ export default function RecipeModal() {
                       htmlFor="ingredients"
                       className="text-base text-gray-500 font-bold"
                     >
-                      Ingredients:{" "}
+                      Ingredients: (Must be separated by comma)
                     </label>
                     <input
                       type="text"
@@ -139,24 +148,7 @@ export default function RecipeModal() {
                       placeholder="Ingredients"
                       value={inputData.ingredients}
                       onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className="mt-4 flex gap-1 flex-col">
-                    <label
-                      htmlFor="instructions"
-                      className="text-base text-gray-500 font-bold"
-                    >
-                      Instructions:{" "}
-                    </label>
-                    <input
-                      type="text"
-                      className="border-2 border-gray-400 rounded-md p-1"
-                      id="instructions"
-                      name="instructions"
-                      placeholder="Instructions"
-                      value={inputData.instructions}
-                      onChange={handleChange}
+                      required
                     />
                   </div>
 
@@ -175,7 +167,28 @@ export default function RecipeModal() {
                       placeholder="Image Link"
                       value={inputData.image}
                       onChange={handleChange}
+                      required
                     />
+                  </div>
+
+                  <div className="mt-4 flex gap-1 flex-col">
+                    <label
+                      htmlFor="instructions"
+                      className="text-base text-gray-500 font-bold"
+                    >
+                      Instructions: (Enter new step in new line)
+                    </label>
+                    <textarea
+                      className="border-2 border-gray-400 rounded-md p-1"
+                      id="instructions"
+                      name="instructions"
+                      cols="30"
+                      rows="6"
+                      placeholder="Instructions"
+                      value={inputData.instructions}
+                      onChange={handleChange}
+                      required
+                    ></textarea>
                   </div>
 
                   <div className="mt-4">

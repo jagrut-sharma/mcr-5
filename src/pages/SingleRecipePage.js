@@ -15,44 +15,48 @@ export default function SingleRecipePage() {
   const selectedRecipe = recipesArr.find(({ _id }) => _id === recipeID);
 
   return (
-    <>
-      <Link to={"/"} className="hover:text-blue-700">
-        <h1 className="text-3xl font-bold font-Merriweather bg-gray-100 p-4 shadow-md">
+    <div className="grid grid-rows-rootLayout h-screen">
+      <h1 className="text-3xl font-bold font-Merriweather bg-gray-100 p-4 shadow-md">
+        <Link to={"/"} className="hover:text-blue-700">
+          {" "}
           Recipe Counter
-        </h1>
-      </Link>
+        </Link>
+      </h1>
 
-      <div className="bg-slate-200 p-2 flex justify-center items-center h-[calc(100vh-68px)] gap-4">
-        <div>
-          <img
-            src={selectedRecipe.image}
-            alt={selectedRecipe.name}
-            className="w-[15rem] h-[20rem] object-cover"
-          />
-        </div>
+      <main className="flex flex-col items-center">
+        <h2 className="text-2xl font-Libre text-center mt-8">
+          {selectedRecipe.name}
+        </h2>
 
-        <div className="flex flex-col flex-wrap w-[15rem] h-[20rem] gap-3">
-          <p className="font-bold text-3xl">{selectedRecipe.name}</p>
-          <p className="text-base mt-1">
-            <span className="font-bold">Cuisine Type:</span>{" "}
-            {selectedRecipe.cuisine}
-          </p>
-
-          <div>
-            <p className="text-base mt-1">
-              <span className="font-bold">Ingredients:</span>
-            </p>
-            <p>{selectedRecipe.ingredients}</p>
+        <div className="w-4/5 flex justify-center my-8 rounded-lg gap-4 bg-slate-100 p-3 shadow-lg">
+          <div className="w-[40%]">
+            <img
+              src={selectedRecipe.image}
+              alt={selectedRecipe.name}
+              className="w-full h-full object-cover rounded-md"
+            />
           </div>
 
-          <div>
-            <p className="text-base mt-1">
-              <span className="font-bold">Instructions:</span>
+          <div className="w-[60%]">
+            <p>
+              <span className="font-bold">Cuisine type: </span>
+              {selectedRecipe.cuisine}
             </p>
-            <p>{selectedRecipe.instructions}</p>
+            <p className="mt-2">
+              <span className="font-bold">Ingredients: </span>
+              {selectedRecipe.ingredients.map((ingred, i) =>
+                i + 1 === selectedRecipe.ingredients.length
+                  ? `${ingred}`
+                  : `${ingred}, `
+              )}
+            </p>
+            <p className="mt-2 font-bold">Instructions:</p>
+            {selectedRecipe.instructions.map((step, i) => (
+              <p key={i} className="mt-2">{`${i + 1}.) ${step}`}</p>
+            ))}
           </div>
         </div>
-      </div>
-    </>
+      </main>
+    </div>
   );
 }

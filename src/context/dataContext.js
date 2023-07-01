@@ -12,10 +12,11 @@ const DataContext = createContext({
 });
 
 export const DataProvider = ({ children }) => {
-  const [recipes, setRecipes] = useImmer(() => {
-    const storedRecipes = localStorage.getItem("recipes");
-    return storedRecipes ? JSON.parse(storedRecipes) : recipesData;
-  });
+  const [recipes, setRecipes] = useImmer(
+    localStorage.getItem("recipes")
+      ? JSON.parse(localStorage.getItem("recipes"))
+      : recipesData
+  );
   const [dataState, dataDispatch] = useImmerReducer(
     dataReducer,
     initialDataState

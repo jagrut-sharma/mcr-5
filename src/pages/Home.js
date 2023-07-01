@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import RecipeModal from "../components/RecipeModal";
 import { useData } from "../context/dataContext";
-import { Link } from "react-router-dom";
-import { BsFillTrashFill } from "react-icons/bs";
 import { ACTIONS } from "../utils/ACTIONS";
 import { useImmer } from "use-immer";
-import { AiFillEdit } from "react-icons/ai";
-import EditRecipeModal from "../components/EditRecipeModal";
+import PostCard from "../components/PostCard";
 
 const initialFilterData = {
   searchFilter: "",
@@ -40,11 +37,11 @@ export default function Home() {
     });
   };
 
-  const sortedRecipe = recipesArr.filter((recipe) => {
-    return recipe[filter.searchCategory]
-      .toLowerCase()
-      .includes(filter.searchFilter.toLowerCase());
-  });
+  // const sortedRecipe = recipesArr.filter((recipe) => {
+  //   return recipe[filter.searchCategory]
+  //     .toLowerCase()
+  //     .includes(filter.searchFilter.toLowerCase());
+  // });
 
   return (
     <>
@@ -117,44 +114,9 @@ export default function Home() {
 
       <div className="m-4">
         <p className="text-xl font-Libre font-bold">All Recipes</p>
-        <div className="flex gap-5 mt-4 flex-wrap">
-          {sortedRecipe.map((recipe) => (
-            <div key={recipe._id} className="bg-slate-200 p-2 relative">
-              <Link to={`/recipe/${recipe._id}`}>
-                <img
-                  src={recipe.image}
-                  alt={recipe.name}
-                  className="w-[12rem] h-[15rem] object-cover"
-                />
-
-                <div className="flex flex-col flex-wrap">
-                  <p className="font-bold text-lg mt-1">{recipe.name}</p>
-                  <p className="text-sm mt-1">
-                    <span className="font-bold">Cuisine Type:</span>{" "}
-                    {recipe.cuisine}
-                  </p>
-                  <p className="text-sm mt-1">
-                    <span className="font-bold">Ingredients:</span>{" "}
-                    <span className="underline">See Recipe</span>
-                  </p>
-                  <p className="text-sm mt-1">
-                    <span className="font-bold">Instructions:</span>{" "}
-                    <span className="underline">See Recipe</span>
-                  </p>
-                </div>
-                <button
-                  className="absolute top-0 right-0 bg-blue-300 p-2"
-                  onClick={(e) => handleDelete(e, recipe._id)}
-                >
-                  <BsFillTrashFill />
-                </button>
-
-                <EditRecipeModal recipeData={recipe} />
-                {/* <button className="absolute top-0 left-0 bg-blue-300 p-2">
-                  <AiFillEdit />
-                </button> */}
-              </Link>
-            </div>
+        <div className="flex gap-8 mt-4 flex-wrap">
+          {recipesArr.map((recipe) => (
+            <PostCard recipe={recipe} key={recipe._id} />
           ))}
         </div>
       </div>

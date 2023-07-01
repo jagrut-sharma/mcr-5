@@ -37,11 +37,17 @@ export default function Home() {
     });
   };
 
-  // const sortedRecipe = recipesArr.filter((recipe) => {
-  //   return recipe[filter.searchCategory]
-  //     .toLowerCase()
-  //     .includes(filter.searchFilter.toLowerCase());
-  // });
+  const sortedRecipe = recipesArr.filter((recipe) => {
+    if (filter.searchCategory === "ingredients") {
+      const ingreds = recipe.ingredients.join(", ");
+      console.log(ingreds);
+      return ingreds.toLowerCase().includes(filter.searchFilter.toLowerCase());
+    } else {
+      return recipe[filter.searchCategory]
+        .toLowerCase()
+        .includes(filter.searchFilter.toLowerCase());
+    }
+  });
 
   return (
     <>
@@ -65,6 +71,7 @@ export default function Home() {
             onChange={handleSearch}
           />
         </div>
+
         <div className="flex items-center gap-4">
           <p className="text-xl text-gray-500 font-bold mx-2">Filters:</p>
 
@@ -72,12 +79,13 @@ export default function Home() {
             <input
               type="radio"
               name="search-filter"
+              className="cursor-pointer"
               id="name"
               value={"name"}
               checked={filter.searchCategory === "name"}
               onChange={handleChangeCategory}
             />
-            <label htmlFor="name" className="text-xl">
+            <label htmlFor="name" className="text-xl cursor-pointer">
               Name
             </label>
           </div>
@@ -90,8 +98,9 @@ export default function Home() {
               value={"ingredients"}
               checked={filter.searchCategory === "ingredients"}
               onChange={handleChangeCategory}
+              className="cursor-pointer"
             />
-            <label htmlFor="ingredients" className="text-xl">
+            <label htmlFor="ingredients" className="text-xl cursor-pointer">
               Ingredients
             </label>
           </div>
@@ -104,8 +113,9 @@ export default function Home() {
               value={"cuisine"}
               checked={filter.searchCategory === "cuisine"}
               onChange={handleChangeCategory}
+              className="cursor-pointer"
             />
-            <label htmlFor="cuisine" className="text-xl">
+            <label htmlFor="cuisine" className="text-xl cursor-pointer">
               Cuisine
             </label>
           </div>
@@ -115,7 +125,7 @@ export default function Home() {
       <div className="m-4">
         <p className="text-xl font-Libre font-bold">All Recipes</p>
         <div className="flex gap-8 mt-4 flex-wrap">
-          {recipesArr.map((recipe) => (
+          {sortedRecipe.map((recipe) => (
             <PostCard recipe={recipe} key={recipe._id} />
           ))}
         </div>

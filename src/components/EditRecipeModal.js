@@ -17,7 +17,6 @@ export default function EditRecipeModal({ recipeData }) {
   const [inputData, setInputData] = useImmer({ ...initialData });
 
   const { dataDispatch } = useData();
-  console.log(initialData);
 
   function closeModal() {
     setIsOpen(false);

@@ -2,22 +2,13 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
 import { useImmer } from "use-immer";
-import { v4 as uuid } from "uuid";
 import { useData } from "../context/dataContext";
 import { ACTIONS } from "../utils/ACTIONS";
+import { AiFillEdit } from "react-icons/ai";
 
-const initialData = {
-  _id: uuid(),
-  name: "",
-  ingredients: "",
-  instructions: "",
-  cuisine: "",
-  image: "",
-};
-
-export default function RecipeModal() {
+export default function EditRecipeModal({ recipeData }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [inputData, setInputData] = useImmer({ ...initialData });
+  const [inputData, setInputData] = useImmer({ ...recipeData });
 
   const { dataDispatch } = useData();
 
@@ -25,7 +16,9 @@ export default function RecipeModal() {
     setIsOpen(false);
   }
 
-  function openModal() {
+  function openModal(e) {
+    e.preventDefault();
+    e.stopPropagation();
     setIsOpen(true);
   }
 
@@ -35,23 +28,23 @@ export default function RecipeModal() {
     });
   };
 
-  const addRecipeHandler = () => {
-    console.log("added");
-    dataDispatch({ type: ACTIONS.ADD_RECIPE, payload: inputData });
-    dataDispatch({ type: ACTIONS.UPDATE_LOCAL_STORAGE });
+  console.log(inputData);
 
-    setInputData({ ...initialData });
+  const editRecipeHandler = () => {
+    console.log("edited");
+    dataDispatch({ type: ACTIONS.EDIT_RECIPE, payload: inputData });
+    dataDispatch({ type: ACTIONS.UPDATE_LOCAL_STORAGE });
     closeModal();
   };
 
   return (
     <>
       <div
-        className="bg-blue-500 cursor-pointer p-4 rounded-full flex items-center w-max fixed bottom-[2rem] right-[2rem]"
+        className=" cursor-pointer flex items-center w-max bottom-[2rem] right-[2rem] absolute top-0 left-0 bg-blue-300 p-2 h-[2rem]"
         onClick={openModal}
       >
-        <button type="button">
-          <BsPlusLg size={"1.5rem"} />{" "}
+        <button className="">
+          <AiFillEdit />
         </button>
       </div>
 
@@ -85,7 +78,7 @@ export default function RecipeModal() {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Add new recipe
+                    Edit recipe
                   </Dialog.Title>
 
                   <div className="mt-4 flex flex-col gap-1 ">
@@ -182,9 +175,9 @@ export default function RecipeModal() {
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={addRecipeHandler}
+                      onClick={editRecipeHandler}
                     >
-                      Add
+                      Edit
                     </button>
                   </div>
                 </Dialog.Panel>

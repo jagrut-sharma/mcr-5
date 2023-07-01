@@ -27,7 +27,13 @@ export const dataReducer = (draft, action) => {
       draft.recipesArr = draft.recipesArr.filter(
         (recipe) => recipe._id !== action.payload
       );
+      break;
+    }
 
+    case ACTIONS.EDIT_RECIPE: {
+      draft.recipesArr = draft.recipesArr.map((recipe) =>
+        recipe._id === action.payload._id ? action.payload : recipe
+      );
       break;
     }
 

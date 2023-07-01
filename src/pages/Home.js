@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import RecipeModal from "../components/RecipeModal";
 import { useData } from "../context/dataContext";
 import { Link } from "react-router-dom";
 import { BsFillTrashFill } from "react-icons/bs";
 import { ACTIONS } from "../utils/ACTIONS";
 import { useImmer } from "use-immer";
+import { AiFillEdit } from "react-icons/ai";
+import EditRecipeModal from "../components/EditRecipeModal";
 
 const initialFilterData = {
   searchFilter: "",
@@ -146,6 +148,11 @@ export default function Home() {
                 >
                   <BsFillTrashFill />
                 </button>
+
+                <EditRecipeModal recipeData={recipe} />
+                {/* <button className="absolute top-0 left-0 bg-blue-300 p-2">
+                  <AiFillEdit />
+                </button> */}
               </Link>
             </div>
           ))}
